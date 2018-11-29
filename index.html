@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Favorite Places</title>
+  <style type="text/css">
+    button,
+    div,
+    form,
+    input {
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1></h1>
+
+    <!-- Favorites places will get dumped here -->
+    <div id="topic-view"></div>
+
+    <form id="topics-form">
+      <label for="topic-input">Add a few of your favorite places!</label>
+      <input type="text" id="topic-input"><br>
+
+      <!-- Button triggers new topic to be added -->
+      <input id="add-topic" type="submit" value="Add a few of your favorite places!">
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      // Initial array of favorite places
+      var topics = ["Austin Texas", "San Francisco", "Paris", "New England"];
+
+      // Function for displaying favorites data
+      function renderButtons() {
+
+        // Deleting the favorites buttons prior to adding new favorites buttons
+        // (this is necessary otherwise we will have repeat buttons)
+        $("#topic-view").empty();
+
+        // Looping through the array of favorite topics
+        for (var i = 0; i < topics.length; i++) {
+
+          // Then dynamicaly generating buttons for each topic in the array.
+          // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
+          var a = $("<button>");
+          // Adding a class
+          a.addClass("topic");
+          // Adding a data-attribute with a value of the topic at index i
+          a.attr("data-name", topics[i]);
+          // Providing the button's text with a value of the topic at index i
+          a.text(topics[i]);
+          // Adding the button to the HTML
+          $("#topic-view").append(a);
+        }
+      }
+
+      // This function handles events where one button is clicked
+      $("#add-topic").on("click", function(event) {
+        // event.preventDefault() prevents the form from trying to submit itself.
+        // We're using a form so that the user can hit enter instead of clicking the button if they want
+        event.preventDefault();
+
+        // This line will grab the text from the input box
+        var topic = $("#topic-input").val().trim();
+        // The favorite topic from the textbox is then added to our array
+        topic.push(topics);
+
+        // calling renderButtons which handles the processing of our favorites array
+        renderButtons();
+      });
+
+      // Calling the renderButtons function at least once to display the initial list of favorites
+      renderButtons();
+    </script>
+  </div>
+
+  <div id="gifs-appear-here">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $("button").on("click", function() {
+    var topic = $(this).attr("data-ftopic");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+      topic + "&api_key=G3iJ4zaj5XTj6ZRCMUJyejmx07bdDDJB&limit=10";
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    })
+      .then(function(response) {
+        var results = response.data;
+
+        for (var i = 0; i < results.length; i++) {
+          var gifDiv = $("<div>");
+
+          var rating = results[i].rating;
+
+          var p = $("<p>").text("Rating: " + rating);
+
+          var topicImage = $("<img>");
+          topicImage.attr("src", results[i].images.fixed_height.url);
+
+          gifDiv.prepend(p);
+          gifDiv.prepend(topicImage);
+
+          $("#gifs-appear-here").prepend(gifDiv);
+        }
+      });
+  });
+</script>
+</body>
+
+</html>
