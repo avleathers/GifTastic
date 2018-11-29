@@ -87,7 +87,7 @@
   $("button").on("click", function() {
     var topic = $(this).attr("data-ftopic");
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-      topic + "&api_key=G3iJ4zaj5XTj6ZRCMUJyejmx07bdDDJB&limit=10";
+      topics + "&api_key=G3iJ4zaj5XTj6ZRCMUJyejmx07bdDDJB&limit=10";
 
     $.ajax({
       url: queryURL,
