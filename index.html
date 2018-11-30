@@ -85,7 +85,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
   
-  // Adding a click event listener to all elements with a class of "movie-btn"
+  // Adding a click event listener to all elements with a class of "data-name"
     $(document).on("click", "button", function() {
         var topic = $(this).attr("data-name");
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
@@ -109,6 +109,13 @@
 
             var topicImage = $("<img>");
             topicImage.attr("src", results[i].images.fixed_height.url);
+
+            // added code for still animate
+            topicImage.addClass("pictures");
+            topicImage.attr("src", results[i].images.fixed_height_still.url);
+            topicImage.attr("data-still", results[i].images.fixed_height_still.url);
+            topicImage.attr("data-animate", results[i].images.fixed_height.url);
+            topicImage.attr("data-state", "still");
 
             gifDiv.prepend(p);
             gifDiv.prepend(topicImage);
