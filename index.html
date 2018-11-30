@@ -68,7 +68,7 @@
         // This line will grab the text from the input box
         var topic = $("#topic-input").val().trim();
         // The favorite topic from the textbox is then added to our array
-        topic.push(topics);
+        topics.push(topic);
 
         // calling renderButtons which handles the processing of our favorites array
         renderButtons();
@@ -85,7 +85,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
   $("button").on("click", function() {
-    var topic = $(this).attr("data-ftopic");
+    var topic = $(this).attr("topics");
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
       topics + "&api_key=G3iJ4zaj5XTj6ZRCMUJyejmx07bdDDJB&limit=10";
 
