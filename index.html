@@ -17,7 +17,7 @@
 <body background="sunset.jpg">
 
   <div class="container">
-      
+
     <h1></h1>
 
     <!-- Favorites places will get dumped here -->
@@ -34,46 +34,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
       // Initial array of favorite places
-            var topics = ["Austin Texas", "San Francisco", "Paris", "New England"];
+      var topics = ["Austin Texas", "San Francisco", "Paris", "New England"];
 
-            // Function for displaying favorites data
-            function renderButtons() {
+      // Function for displaying favorites data
+      function renderButtons() {
 
-            // Deleting the favorites buttons prior to adding new favorites buttons
-            // (this is necessary otherwise we will have repeat buttons)
-            $("#topic-view").empty();
+        // Deleting the favorites buttons prior to adding new favorites buttons
+        // (this is necessary otherwise we will have repeat buttons)
+        $("#topic-view").empty();
 
-            // Looping through the array of favorite topics
-            for (var i = 0; i < topics.length; i++) {
+        // Looping through the array of favorite topics
+        for (var i = 0; i < topics.length; i++) {
 
-            // Then dynamicaly generating buttons for each topic in the array.
-            // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
-            var a = $("<button>");
-            // Adding a class
-            a.addClass("topic");
-            // Adding a data-attribute with a value of the topic at index i
-            a.attr("data-name", topics[i]);
-            // Providing the button's text with a value of the topic at index i
-            a.text(topics[i]);
-            // Adding the button to the HTML
-            $("#topic-view").append(a);
-            }
+          // Then dynamicaly generating buttons for each topic in the array.
+          // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
+          var a = $("<button>");
+          // Adding a class
+          a.addClass("topic");
+          // Adding a data-attribute with a value of the topic at index i
+          a.attr("data-name", topics[i]);
+          // Providing the button's text with a value of the topic at index i
+          a.text(topics[i]);
+          // Adding the button to the HTML
+          $("#topic-view").append(a);
         }
+      }
 
-        // This function handles events where one button is clicked
-        $("#add-topic").on("click", function(event) {
-            // event.preventDefault() prevents the form from trying to submit itself.
-            // We're using a form so that the user can hit enter instead of clicking the button if they want
-            event.preventDefault();
+      // This function handles events where one button is clicked
+      $("#add-topic").on("click", function (event) {
+        // event.preventDefault() prevents the form from trying to submit itself.
+        // We're using a form so that the user can hit enter instead of clicking the button if they want
+        event.preventDefault();
 
-            // This line will grab the text from the input box
-            var topic = $("#topic-input").val().trim();
-            // The favorite topic from the textbox is then added to our array
-            topics.push(topic);
+        // This line will grab the text from the input box
+        var topic = $("#topic-input").val().trim();
+        // The favorite topic from the textbox is then added to our array
+        topics.push(topic);
 
-            // calling renderButtons which handles the processing of our favorites array
-            renderButtons();
-        });
+        // calling renderButtons which handles the processing of our favorites array
+        renderButtons();
+      });
 
       // Calling the renderButtons function at least once to display the initial list of favorites
       renderButtons();
@@ -81,27 +81,28 @@
   </div>
 
   <div id="gifs-appear-here">
-</div>
+  </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript">
-  
-  // Adding a click event listener to all elements with a class of "data-name"
-    $(document).on("click", "button", function() {
-        var topic = $(this).attr("data-name");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    // Adding a click event listener to all elements with a class of "data-name"
+    $(document).on("click", "button", function () {
+      var topic = $(this).attr("data-name");
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
         topic + "&api_key=G3iJ4zaj5XTj6ZRCMUJyejmx07bdDDJB&limit=10";
 
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    })
-      .then(function(response) {
-        var results = response.data;
-    
-            $("#gifs-appear-here").empty();
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function (response) {
+          var results = response.data;
+          console.log(response);
 
-            for (var i = 0; i < results.length; i++) {
+          $("#gifs-appear-here").empty();
+
+          for (var i = 0; i < results.length; i++) {
             var gifDiv = $("<div>");
 
             var rating = results[i].rating;
@@ -117,33 +118,31 @@
             topicImage.attr("data-still", results[i].images.fixed_height_still.url);
             topicImage.attr("data-animate", results[i].images.fixed_height.url);
             topicImage.attr("data-state", "still");
+      
 
-
-            // $(".gif").on("click", function() {
-                
-            $(document).on("click",".pictures", function() {
+              $(document).on("click", ".pictures", function () {
                 var state = $(this).attr("data-state");
                 console.log(state);
-            
+
                 if (state === "still") {
-                    $(this).attr("src", $(this).attr("data-animate"));
-                    $(this).attr("data-state", "animate");
+                  $(this).attr("src", $(this).attr("data-animate"));
+                  $(this).attr("data-state", "animate");
                 } else {
-                    $(this).attr("src", $(this).attr("data-still"));
-                    $(this).attr("data-state", "still");
+                  $(this).attr("src", $(this).attr("data-still"));
+                  $(this).attr("data-state", "still");
                 }
-            });
+              });
 
             gifDiv.prepend(p);
             gifDiv.prepend(topicImage);
 
             $("#gifs-appear-here").prepend(gifDiv);
-        }
-      });
+          }
+        });
 
-  });
+    });
 
-</script>
+  </script>
 </body>
 
 </html>
