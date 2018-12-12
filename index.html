@@ -83,8 +83,23 @@
   <div id="gifs-appear-here">
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Moved the if/then outside of the for-loop that it was in to fix the still animate on click problem -->
   <script type="text/javascript">
+    $(document).on("click", ".pictures", function () {
+      var state = $(this).attr("data-state");
+      console.log(state);
+
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      }
+
+      else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+    });
+
 
     // Adding a click event listener to all elements with a class of "data-name"
     $(document).on("click", "button", function () {
@@ -118,20 +133,8 @@
             topicImage.attr("data-still", results[i].images.fixed_height_still.url);
             topicImage.attr("data-animate", results[i].images.fixed_height.url);
             topicImage.attr("data-state", "still");
-      
 
-              $(document).on("click", ".pictures", function () {
-                var state = $(this).attr("data-state");
-                console.log(state);
 
-                if (state === "still") {
-                  $(this).attr("src", $(this).attr("data-animate"));
-                  $(this).attr("data-state", "animate");
-                } else {
-                  $(this).attr("src", $(this).attr("data-still"));
-                  $(this).attr("data-state", "still");
-                }
-              });
 
             gifDiv.prepend(p);
             gifDiv.prepend(topicImage);
